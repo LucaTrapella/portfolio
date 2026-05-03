@@ -97,6 +97,14 @@ body {
   padding-top: 0.3rem;
 }
 
+/* riga superiore: nome a sinistra, icone contatto a destra */
+.intro-text-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
 /* nome grande in font pixel — modifica font-size qui per ridimensionarlo */
 .intro-name-pixel {
   font-family: 'DotGothic16', monospace;
@@ -104,8 +112,34 @@ body {
   font-weight: 700;
   color: var(--text);
   line-height: 1;
-  margin-bottom: 0.75rem;
   letter-spacing: 0.01em;
+}
+
+/* contenitore icone contatto */
+.intro-contacts {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  padding-top: 0.3rem; /* allineamento ottico con la baseline del nome */
+}
+
+/* singolo bottone icona — es. email, github */
+.intro-contact-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  text-decoration: none;
+  width: 28px;
+  height: 28px;
+  transition: color 0.15s ease;
+}
+
+.intro-contact-btn:hover { color: var(--text); }
+
+.intro-contact-btn svg {
+  width: 17px;
+  height: 17px;
 }
 
 /* etichetta location sotto il nome */
