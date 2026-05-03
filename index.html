@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luca Trapella — Portfolio</title>
+  <!-- Stylesheet principale — i design token (colori, font) vivono in :root di style.css -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── CONTENUTO PRINCIPALE ──────────────────
+       Contenitore centrato con intro, controlli
+       e la griglia di card renderizzata dinamicamente.
+  ─────────────────────────────────────────── -->
+  <div id="main">
+
+    <!-- Blocco intro: foto sinistra + testo destra -->
+    <div class="intro">
+
+      <!-- Colonna sinistra: foto -->
+      <div class="intro-photo">
+        <img src="images/io.png" alt="Luca Trapella">
+      </div>
+
+      <!-- Colonna destra: nome pixel, location, titolo, descrizione -->
+      <div class="intro-text">
+        <!-- Nome grande in font pixel — cambia font-size in .intro-name-pixel su style.css -->
+        
+        <div class="intro-name-pixel">Luca Trapella</div>
+        
+        
+        <h1>Master's student in<br>Music &amp; Acoustic Engineering.</h1>
+
+        <div class="intro-location">Milano, IT</div>
+        
+        <p>Working at the intersection of music, audio engineering, and artificial intelligence — building tools that bridge the creative and technical dimensions of sound.</p>
+      </div>
+
+    </div>
+
+    <!-- Barra controlli: ordinamento (sinistra) + ricerca (destra) -->
+    <div class="controls">
+      <div class="sort-group">
+        <!-- Il valore di data-sort viene letto da JS per impostare sortMode ('chrono' o 'alpha') -->
+        <button class="sort-btn active" data-sort="chrono">chrono</button>
+        <button class="sort-btn" data-sort="alpha">a–z</button>
+      </div>
+
+      <!-- Dropdown filtro per tag — le opzioni sono popolate dinamicamente da JS -->
+      <div class="tag-filter-wrap">
+        <select id="tagFilter" class="tag-filter">
+          <option value="">all</option>
+        </select>
+      </div>
+      <div class="search-wrap">
+        <!-- Icona decorativa (pointer-events: none per non bloccare il click sull'input) -->
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="6.5" cy="6.5" r="5"/>
+          <line x1="10.5" y1="10.5" x2="14" y2="14"/>
+        </svg>
+        <input class="search-input" type="text" id="searchInput" placeholder="search...">
+      </div>
+    </div>
+
+    <!-- Le card vengono iniettate qui da renderCards() in script.js -->
+    <div class="cards-grid" id="cardsGrid"></div>
+
+    <!-- Footer: nome a sinistra, anno a destra -->
+    <div class="footer">
+      <span class="footer-year">Luca Trapella - 2026</span>
+    </div>
+
+  </div><!-- /#main -->
+
+  <!-- ── BOLLA DI TRANSIZIONE ───────────────────
+       Copre il viewport tramite clip-path circle
+       che si espande dal centro della card cliccata.
+       Il colore sfondo viene impostato da JS uguale alla card.
+       z-index: 400 (sopra #main, sotto #detail)
+  ─────────────────────────────────────────── -->
+  <div id="bubble"></div>
+
+  <!-- ── VISTA DETTAGLIO ───────────────────────
+       Overlay fullscreen che appare dopo l'espansione
+       della bolla. Il contenuto è iniettato da
+       openDetail() in script.js.
+       z-index: 500 (sopra la bolla)
+  ─────────────────────────────────────────── -->
+  <div id="detail">
+    <!-- detailWrap: area di contenuto scrollabile, sfondo uguale al colore card -->
+    <div class="detail-wrap" id="detailWrap"></div>
+  </div>
+
+  <!-- ── PULSANTE BACK ─────────────────────────
+       Fixed in alto a sinistra, visibile (opacity: 1)
+       solo quando il dettaglio è aperto (classe .show aggiunta da JS).
+       z-index: 600 (sopra tutto)
+  ─────────────────────────────────────────── -->
+  <div id="back">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+         stroke="currentColor" stroke-width="1.6"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="11 4 6 9 11 14"/>
+    </svg>
+  </div>
+
+  <!-- ── LIGHTBOX ──────────────────────────────
+       Overlay per visualizzare un'immagine ingrandita.
+       Appare cliccando su un'immagine nel dettaglio.
+       z-index: 700 (sopra tutto il resto)
+  ─────────────────────────────────────────── -->
+  <div id="lightbox">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <!-- JS principale — dati, rendering e logica di interazione -->
+  <script src="script.js"></script>
+
+</body>
+</html>

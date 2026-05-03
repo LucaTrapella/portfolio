@@ -1,0 +1,769 @@
+/* ─────────────────────────────────────────
+   FONT IMPORT
+   Source Code Pro — interfaccia e testo corrente
+   DotGothic16     — nome in grande nell'intro
+───────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;1,300&display=swap');
+
+/* ─────────────────────────────────────────
+   RESET
+   Rimuove margini e padding di default da tutti gli elementi.
+───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─────────────────────────────────────────
+   DESIGN TOKENS  ← modifica qui per rifare il tema
+   --bg       sfondo pagina principale
+   --surface  superficie leggermente più chiara (non usata direttamente ora)
+   --text     testo primario
+   --muted    testo secondario / placeholder
+   --border   separatori e bordi sottili
+   --dark     accento molto scuro (raro)
+───────────────────────────────────────── */
+:root {
+  --bg:      #1a1918;   /* near-black caldo, stile dark mode Claude */
+  --surface: #232120;   /* superficie leggermente più chiara */
+  --text:    #ede9e1;   /* bianco caldo */
+  --muted:   #8a8680;   /* grigio medio-caldo */
+  --border:  #2e2b28;   /* separatore quasi invisibile */
+  --dark:    #0f0e0d;   /* accento molto scuro */
+}
+
+html { scroll-behavior: smooth; }
+
+/* ─────────────────────────────────────────
+   BODY
+───────────────────────────────────────── */
+body {
+  font-family: 'Source Code Pro', monospace;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ─────────────────────────────────────────
+   CONTENITORE PRINCIPALE
+   flex: 1 lo fa crescere fino a riempire il viewport,
+   così il footer è sempre spinto in fondo.
+───────────────────────────────────────── */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 1160px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 7rem 2.5rem 2.5rem;
+}
+
+
+
+/* ─────────────────────────────────────────
+   INTRO
+   Layout a due colonne: foto | testo.
+   Cambia i valori di grid-template-columns per
+   ridimensionare la foto rispetto al testo.
+───────────────────────────────────────── */
+.intro {
+  display: grid;
+  grid-template-columns: 260px 1fr; /* 200px foto fissa, resto al testo */
+  gap: 3.5rem;
+  align-items: start;
+  margin-bottom: 5rem;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* foto profilo — rettangolo ritagliato, nessun bordo arrotondato */
+.intro-photo img {
+  width: 260px;
+  height: 260px;
+  object-fit: cover;
+  object-position: top; /* mantieni il viso visibile */
+  display: block;
+  filter: grayscale(8%); /* leggerissima desaturazione per coerenza col tema */
+}
+
+/* colonna destra — piccolo offset verticale per allineamento ottico */
+.intro-text {
+  padding-top: 0.3rem;
+}
+
+/* nome grande in font pixel — modifica font-size qui per ridimensionarlo */
+.intro-name-pixel {
+  font-family: 'DotGothic16', monospace;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+/* etichetta location sotto il nome */
+.intro-location {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+/* titolo principale — clamp() scala tra 1.4rem e 2rem */
+.intro h1 {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  color: var(--text);
+  margin-bottom: 1.2rem;
+  max-width: 580px;
+}
+
+/* sottotitolo descrizione */
+.intro p {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.9;
+  max-width: 460px;
+  letter-spacing: 0.02em;
+}
+
+
+/* ─────────────────────────────────────────
+   BARRA CONTROLLI  (ordinamento + ricerca)
+───────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.sort-group {
+  display: flex;
+}
+
+/* singolo pulsante di ordinamento */
+.sort-btn {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  margin-right: -1px; /* collassa i bordi tra pulsanti adiacenti */
+  position: relative;
+}
+
+/* stato attivo / hover: riempie il pulsante con il colore del testo */
+.sort-btn:hover,
+.sort-btn.active {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  z-index: 1; /* necessario per visualizzare correttamente il bordo collassato */
+}
+
+/* wrapper dropdown tag — freccia custom via ::after */
+.tag-filter-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.tag-filter-wrap::after {
+  content: '▾';
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--muted);
+  font-size: 0.55rem;
+}
+
+/* select stilizzato come i sort-btn — appearance: none rimuove la freccia nativa */
+.tag-filter {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 2rem 0.45rem 1rem; /* spazio a destra per la freccia custom */
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tag-filter:hover,
+.tag-filter:focus {
+  border-color: var(--text);
+  color: var(--text);
+}
+
+/* wrapper input ricerca — spinto a destra con margin-left: auto */
+.search-wrap {
+  position: relative;
+  margin-left: auto;
+}
+
+/* icona lente (pointer-events: none per non bloccare il click sull'input) */
+.search-wrap svg {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--muted);
+}
+
+/* campo di testo */
+.search-input {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.72rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 1rem 0.45rem 2.4rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  width: 240px;
+  transition: border-color 0.15s ease;
+}
+
+.search-input::placeholder { color: var(--muted); }
+.search-input:focus { border-color: var(--text); }
+
+
+/* ─────────────────────────────────────────
+   GRIGLIA CARD
+   auto-fill: riempie quante colonne da 320px entrano.
+───────────────────────────────────────── */
+.cards-grid {
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.2rem;
+}
+
+/* singola card — colore sfondo impostato inline da JS (palette grigio/bianco) */
+.card {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  /* animazione di ingresso: parte invisibile e traslata verso il basso */
+  opacity: 0;
+  transform: translateY(16px);
+  animation: cardIn 0.45s ease forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* nessun border-radius: le card sono rettangoli netti */
+  border-radius: 2%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35); /* ombra più visibile su sfondo scuro */
+}
+
+/* keyframe: fade in + scorrimento verso posizione finale */
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* area testo della card */
+.card-body {
+  padding: 1.4rem 1.5rem 1.6rem;
+}
+
+/* es. "Research", "Project", "Tool" */
+.card-tag {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.38);
+  margin-bottom: 0.45rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: rgba(0, 0, 0, 0.85);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.card-desc {
+  font-size: 0.73rem;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.52);
+  line-height: 1.75;
+}
+
+/* ruolo mostrato in grassetto sotto il titolo della card (opzionale) */
+.card-role {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+  margin-bottom: 0.55rem;
+  letter-spacing: 0.01em;
+}
+
+/* stato del progetto sulla card — pallino colorato + testo */
+.card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.58rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 0.75rem;
+}
+
+.card-status::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* colori per ogni stato — modifica qui per cambiare la palette */
+.card-status[data-status="complete"]    { color: rgba(40, 110, 55, 0.75); }
+.card-status[data-status="complete"]::before    { background: rgba(40, 110, 55, 0.75); }
+
+.card-status[data-status="in progress"] { color: rgba(150, 95, 10, 0.75); }
+.card-status[data-status="in progress"]::before { background: rgba(150, 95, 10, 0.75); }
+
+.card-status[data-status="ongoing"]     { color: rgba(30, 75, 160, 0.75); }
+.card-status[data-status="ongoing"]::before     { background: rgba(30, 75, 160, 0.75); }
+
+.card-status[data-status="archived"]    { color: rgba(0, 0, 0, 0.28); }
+.card-status[data-status="archived"]::before    { background: rgba(0, 0, 0, 0.28); }
+
+/* stato nel dettaglio — stesso sistema di colori, dimensione leggermente maggiore */
+.detail-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.detail-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.detail-status[data-status="complete"]    { color: rgba(40, 110, 55, 0.75); }
+.detail-status[data-status="complete"]::before    { background: rgba(40, 110, 55, 0.75); }
+
+.detail-status[data-status="in progress"] { color: rgba(150, 95, 10, 0.75); }
+.detail-status[data-status="in progress"]::before { background: rgba(150, 95, 10, 0.75); }
+
+.detail-status[data-status="ongoing"]     { color: rgba(30, 75, 160, 0.75); }
+.detail-status[data-status="ongoing"]::before     { background: rgba(30, 75, 160, 0.75); }
+
+.detail-status[data-status="archived"]    { color: rgba(0, 0, 0, 0.28); }
+.detail-status[data-status="archived"]::before    { background: rgba(0, 0, 0, 0.28); }
+
+/* data in alto a destra di ogni card */
+.card-date {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.28);
+}
+
+/* mostrato quando la ricerca non trova risultati */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+}
+
+
+/* ─────────────────────────────────────────
+   BOLLA DI TRANSIZIONE
+   Si espande dal centro della card cliccata
+   fino a coprire tutto il viewport tramite clip-path.
+   --bx / --by vengono impostati da JS prima dell'apertura.
+───────────────────────────────────────── */
+#bubble {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+  clip-path: circle(0% at 50% 50%); /* collassata di default */
+  will-change: clip-path;
+}
+
+/* stato aperto: si espande — rallentata a 1.1s per effetto più cinematico */
+#bubble.open {
+  clip-path: circle(160% at var(--bx) var(--by));
+  pointer-events: all;
+  transition: clip-path 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* stato di chiusura: collassa verso il punto di origine */
+#bubble.close {
+  clip-path: circle(0% at var(--bx) var(--by));
+  transition: clip-path 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ─────────────────────────────────────────
+   VISTA DETTAGLIO
+   Pannello fullscreen rivelato dopo la bolla.
+   Il colore sfondo corrisponde alla card cliccata (impostato via JS).
+───────────────────────────────────────── */
+#detail {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  overflow-y: auto;
+  overflow-x: hidden;
+  opacity: 0;
+  pointer-events: none;
+  /* nessun delay CSS: la comparsa è controllata dal setTimeout in JS */
+  transition: opacity 0.3s ease;
+}
+
+#detail.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* wrapper interno del contenuto */
+.detail-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5.5rem 3.5rem 7rem;
+  min-height: 100vh;
+}
+
+/* header a due colonne: sinistra = metadati, destra = descrizione */
+.detail-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+  margin-bottom: 4rem;
+}
+
+/* es. "Research · mar 2025" */
+.detail-tag {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.35);
+  margin-bottom: 0.9rem;
+}
+
+/* nome del progetto — grande, peso leggero */
+.detail-title {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: rgba(0, 0, 0, 0.88);
+  margin-bottom: 2.5rem;
+}
+
+/* intestazioni maiuscole sopra le righe di tag */
+.meta-label {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.32);
+  margin-bottom: 0.6rem;
+  margin-top: 1.4rem;
+}
+
+/* contenitore delle pillole tag */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* singola pillola tecnologia / linguaggio — rettangolo netto, nessun border-radius */
+.tag {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* ruolo nel pannello dettaglio — più grande rispetto alla card */
+.detail-role {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.72);
+  margin-bottom: 0.3rem;
+}
+
+/* titolo del paragrafo full description (opzionale) */
+.detail-full-title {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.32);
+  margin-bottom: 0.2rem;
+}
+
+/* paragrafo descrizione estesa */
+.detail-desc {
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 2;
+  color: rgba(0, 0, 0, 0.62);
+  letter-spacing: 0.015em;
+  padding-top: 1rem;
+}
+
+/* contenitore dei pulsanti azione (download / link) */
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.8rem;
+}
+
+/* pulsante download o link esterno — rettangolo minimal con bordo */
+.detail-btn {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+  color: rgba(0, 0, 0, 0.65);
+  transition: background 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+}
+
+.detail-btn:hover {
+  background: rgba(0, 0, 0, 0.07);
+  color: rgba(0, 0, 0, 0.88);
+}
+
+/* galleria immagini */
+.detail-imgs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ogni immagine si ridimensiona automaticamente per riempire la cella —
+   aspect-ratio mantiene le proporzioni 16:9 indipendentemente dalla dimensione originale */
+.detail-imgs img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;       /* ritaglia per riempire senza distorcere */
+  object-position: center; /* centra il ritaglio — cambia in 'top' per foto di persone */
+  display: block;
+  cursor: zoom-in;
+  transition: opacity 0.15s ease;
+}
+
+.detail-imgs img:hover { opacity: 0.88; }
+
+/* segnaposto finché non si aggiungono immagini reali */
+.img-placeholder {
+  aspect-ratio: 16 / 9;
+  background: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+
+/* ─────────────────────────────────────────
+   PULSANTE BACK
+   Fixed in alto a sinistra, visibile solo quando
+   il dettaglio è aperto (classe .show aggiunta da JS).
+   Icona scura perché si sovrappone allo sfondo chiaro delle card.
+───────────────────────────────────────── */
+#back {
+  position: fixed;
+  top: 1.8rem;
+  left: 1.8rem;
+  z-index: 600;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#back.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* cerchio di hover — scala da 0 a 1 al passaggio del mouse */
+#back::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08); /* cerchio scuro sottile */
+  transform: scale(0);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+#back:hover::before { transform: scale(1); }
+
+#back svg {
+  position: relative;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0.45); /* scuro per essere visibile sulle card chiare */
+  transition: color 0.22s ease;
+}
+
+#back:hover svg { color: rgba(0, 0, 0, 0.85); }
+
+
+/* ─────────────────────────────────────────
+   LIGHTBOX
+   Overlay semitrasparente che mostra l'immagine
+   originale centrata. z-index 700 (sopra tutto).
+   Click ovunque per chiudere.
+───────────────────────────────────────── */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  cursor: zoom-out;
+}
+
+#lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* immagine centrata — non occupa tutto lo schermo */
+#lightbox-img {
+  max-width: min(88vw, 1100px);
+  max-height: 82vh;
+  object-fit: contain;  /* mostra l'immagine intera senza ritaglio */
+  display: block;
+  /* leggera animazione di scala all'apertura */
+  transform: scale(0.94);
+  transition: transform 0.2s ease;
+}
+
+#lightbox.open #lightbox-img {
+  transform: scale(1);
+}
+
+
+/* ─────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  margin-top: auto;   /* spinge il footer al fondo anche con poco contenuto */
+  padding-top: 2.5rem;
+}
+
+.footer-name {
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footer-year {
+  font-size: 0.62rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+
+/* ─────────────────────────────────────────
+   RESPONSIVE — aggiustamenti mobile
+   Sotto 700px: colonna singola, padding ridotto.
+───────────────────────────────────────── */
+@media (max-width: 700px) {
+  #main { padding: 4rem 1.5rem 6rem; }
+
+  /* intro: foto sopra, testo sotto */
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .intro-photo img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .detail-header { grid-template-columns: 1fr; gap: 2rem; }
+  .detail-wrap { padding: 5rem 1.5rem 5rem; }
+}
