@@ -317,7 +317,7 @@ function openDetail(ev, id) {
       </div>
 
       <div class="detail-right">
-        ${p.fullTitle ? `<div class="detail-full-title">${p.fullTitle}</div>` : ''}
+        ${p.fullTitle ? `<div class="detail-full-title">About</div>` : ''}
         <div class="detail-desc">${p.full}</div>
 
         ${(p.file || p.link) ? `
