@@ -1,9 +1,9 @@
 /* ─────────────────────────────────────────
    FONT IMPORT
    Source Code Pro — interfaccia e testo corrente
-   DotGothic16     — nome in grande nell'intro
+   Fira Code       — nome in grande nell'intro
 ───────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;1,300&display=swap');
 
 /* ─────────────────────────────────────────
    RESET
@@ -34,6 +34,19 @@
 }
 
 html { scroll-behavior: smooth; }
+
+/* selezione testo — sfondo scuro (pagina) */
+::selection {
+  background: rgba(237, 233, 225, 0.18);
+  color: #ede9e1;
+}
+
+/* selezione testo — sfondo chiaro (card e dettaglio) */
+.card ::selection,
+#detail ::selection {
+  background: rgba(0, 0, 0, 0.10);
+  color: rgba(0, 0, 0, 0.82);
+}
 
 /* ─────────────────────────────────────────
    BODY
@@ -105,9 +118,9 @@ body {
   margin-bottom: 0.75rem;
 }
 
-/* nome grande in font pixel — modifica font-size qui per ridimensionarlo */
+/* nome grande — modifica font-size qui per ridimensionarlo */
 .intro-name-pixel {
-  font-family: 'DotGothic16', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: clamp(1.8rem, 3.5vw, 2.8rem);
   font-weight: 700;
   color: var(--text);
@@ -305,6 +318,8 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   /* animazione di ingresso: parte invisibile e traslata verso il basso */
   opacity: 0;
   transform: translateY(16px);
@@ -315,8 +330,8 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35); /* ombra più visibile su sfondo scuro */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(225, 225, 225, 0.1);
 }
 
 /* keyframe: fade in + scorrimento verso posizione finale */
@@ -328,6 +343,9 @@ body {
 
 /* area testo della card */
 .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 1.4rem 1.5rem 1.6rem;
 }
 
@@ -338,7 +356,7 @@ body {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.38);
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.3rem;
 }
 
 .card-title {
@@ -346,7 +364,7 @@ body {
   font-weight: 500;
   letter-spacing: -0.02em;
   color: rgba(0, 0, 0, 0.85);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
   line-height: 1.2;
 }
 
@@ -366,6 +384,45 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* contesto del progetto (corso / progetto personale) */
+.card-context {
+  font-size: 0.58rem;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: rgba(0, 0, 0, 0.38);
+  margin-top: 0.7rem;
+  line-height: 1.5;
+}
+
+/* riga inferiore: status + pill tag — sempre in fondo alla card */
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 1.2rem;
+}
+
+/* pillola tag sulla card (MAE, dominio) */
+.card-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.55rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.18rem 0.55rem;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  color: rgba(0, 0, 0, 0.42);
+}
+
+.card-pill--main {
+  color: rgba(0, 0, 0, 0.55);
+  border-color: rgba(0, 0, 0, 0.28);
+  font-weight: 500;
+}
+
 /* stato del progetto sulla card — pallino colorato + testo */
 .card-status {
   display: inline-flex;
@@ -375,7 +432,6 @@ body {
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  margin-top: 0.75rem;
 }
 
 .card-status::before {
@@ -431,11 +487,15 @@ body {
 .detail-status[data-status="archived"]    { color: rgba(0, 0, 0, 0.28); }
 .detail-status[data-status="archived"]::before    { background: rgba(0, 0, 0, 0.28); }
 
-/* data in alto a destra di ogni card */
+/* riga superiore card: tag a sinistra, data a destra */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.45rem;
+}
+
 .card-date {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
   font-size: 0.6rem;
   letter-spacing: 0.08em;
   color: rgba(0, 0, 0, 0.28);
@@ -548,7 +608,16 @@ body {
   text-transform: uppercase;
   color: rgba(0, 0, 0, 0.32);
   margin-bottom: 0.6rem;
-  margin-top: 1.4rem;
+  margin-top: 2.2rem;
+}
+
+/* contesto nella vista dettaglio */
+.detail-context {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.72);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.01em;
 }
 
 /* contenitore delle pillole tag */

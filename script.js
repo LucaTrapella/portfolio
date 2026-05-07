@@ -20,13 +20,15 @@
 
 const PROJECTS = [
   {
-    id: 1, 
+    id: 1,
     title: 'ECG Arrhythmia Classifier via SVM',
     tag: 'Research',
     date: '2024-11',
     color: '#e8e6e2',
-    short: 'SVM-based classification of ECG signals into 5 arrhythmia classes using rhythmic feature extraction — ZCR, spectral flux, and STFT — on the MIT-BIH dataset. Built for the CMRM2024 course at Polimi.',
-    full: 'Developed a full classification pipeline for ECG arrhythmia detection using the MIT-BIH dataset, targeting five classes: Normal, Fusion of paced and normal, Premature ventricular contraction, Atrial premature, and Fusion of ventricular and normal. Each 187-sample waveform (360 Hz) was normalized with MinMaxScaler and encoded into a 30-dimensional feature vector combining mean and standard deviation of the raw signal, Zero-Crossing Rate, and spectral flux derived from STFT magnitude. A Support Vector Machine was trained and evaluated across multiple kernel types (RBF, linear, polynomial, sigmoid) with systematic hyperparameter search over C, gamma, N, and H. The initial model achieved 89% test accuracy but showed severe class imbalance bias, failing entirely on minority classes S and F. To address this, we applied dataset balancing and custom data augmentation (time-stretching and amplitude scaling). The final best model — RBF kernel, C=10000, gamma=0.1, N=128, H=32 — reached 81.98% accuracy with substantially more equitable per-class recall, reducing overfitting at the cost of raw accuracy. Work done in collaboration with Francesco Crociani.',
+    context: 'MAE (Polimi) · Computer Music Representation and Models',
+    mainTag: 'Machine Learning',
+    short: 'SVM pipeline classifying ECG signals into 5 arrhythmia classes on the MIT-BIH dataset.',
+    full: 'Developed at Politecnico di Milano for the Creative Music and Real-time Multimedia course, this project applies machine learning to biomedical signal classification. Working on the MIT-BIH arrhythmia dataset, we built a full pipeline from raw waveform normalization to feature extraction and SVM training. The most interesting challenge was handling severe class imbalance: an initial model hit 89% accuracy but failed entirely on minority classes. Addressing this through dataset balancing and audio-style augmentation — time-stretching and amplitude scaling borrowed from music ML — produced a fairer model with more equitable recall across all five classes. Work done in collaboration with Francesco Crociani.',
     fullTitle: 'ECG Arrhythmia Classification via SVM — CMRM2024',
     role: 'ML Engineer',
     tech: ['scikit-learn', 'librosa', 'Meyda'],
@@ -42,16 +44,18 @@ const PROJECTS = [
     tag: 'Challenge',
     date: '2025-11',
     color: '#e8e6e2',
-    short: 'Deep learning challenge in a team. Multivariate time series classification of synthetic pirate pain levels using hybrid CNN + MLP architectures with statistical feature engineering.',
-    full: 'Tackled the Pirate Pain Dataset as a supervised multivariate time series classification task, predicting one of three pain levels from joint trajectories and static anatomical attributes. After data analysis revealing class imbalance, weak autocorrelation, and two non-informative features (joint_30 and time), we designed a hybrid architecture with a recurrent/convolutional branch for temporal data and an MLP branch for static one-hot features. Z-score normalization within stratified K-fold splits prevented data leakage. We progressively moved from LSTM/GRU variants to a 1D CNN + Attention model, then replaced raw joint trajectories with temporal derivatives and statistical descriptors (mean, std, peak speed, pain survey counts), removing low-variance joints. The final Features + 1DConv + Attention + MLP model reached a weighted F1 of 0.9473 ± 0.0130 on validation, using majority voting across windows and folds for test predictions. Challenge position: 9th place out of 193 teams.',
+    context: 'Polimi · Artificial Neural Networks and Deep Learning',
+    mainTag: 'Deep Learning',
+    short: 'Multivariate time series classification using hybrid CNN + Attention architectures. 9th place out of 193 teams.',
+    full: 'Part of the Artificial Neural Networks and Deep Learning course at Politecnico di Milano, this Kaggle challenge involved classifying synthetic pain levels from joint trajectory data. The task looked deceptively simple but required careful handling of class imbalance, non-informative features, and the choice between temporal and static input modalities. We evolved the architecture progressively — from LSTM variants to a 1D CNN with Attention — and shifted from raw trajectories to engineered statistical descriptors, which proved decisive. Finishing 9th out of 193 teams, the result reflects both the architectural choices and disciplined cross-validation strategy. Work done in collaboration with Francesco Crociani.',
     fullTitle: 'AN2DL Challenge 1',
-    role: 'ML Engineer',
+    role: ['Data Exploration', 'Patch Extraction', 'Model Development'],
     tech: ['PyTorch', 'scikit-learn'],
     langs: ['Python'],
     file: 'reports/AN2DL25_Challenge1_Report.pdf',
     link: 'https://www.kaggle.com/competitions/an2dl2526c1/overview',
     status: 'complete',
-    images: []
+    images: ['images/anndl_c1_1.png']
   },
   {
     id: 3,
@@ -59,8 +63,10 @@ const PROJECTS = [
     tag: 'Challenge',
     date: '2025-12',
     color: '#e8e6e2',
-    short: 'Deep learning challenge in a team. Molecular subtype classification of whole-slide histopathological images using patch-based transfer learning and CTrans, a CNN–Transformer pretrained on histopathological data.',
-    full: 'Addressed a four-class histopathological image classification task on the Grumpy Doctogres Dataset, distinguishing Luminal A, Luminal B, HER2-enriched, and Triple Negative breast cancer subtypes. The dataset presented class imbalance, corrupted samples (green stains, Shrek images), variable image resolution, and multi-region slides. Outlier removal was initially attempted with ResNet-18 binary classifiers, then reformulated as color-based filtering — achieving near-perfect removal at lower complexity. Images were processed via a patch-based sliding-window strategy guided by binary tissue masks (128×128 to 256×256 patches), avoiding spatial overlap. Custom data augmentation included geometric transforms and mild photometric perturbations, deliberately excluding hue jittering to preserve staining information. At inference, Test-Time Augmentation with softmax averaging improved robustness. Among EfficientNet-B2, ResNet-50, and CTrans, the domain-adapted CTrans model (≈27M parameters, pretrained on histopathological data) achieved the best validation F1 of 0.5060 and a test score of 0.4256. Challenge position: 33th place out of 193 teams.',
+    context: 'Polimi · Artificial Neural Networks and Deep Learning',
+    mainTag: 'Deep Learning',
+    short: 'Breast cancer subtype classification from whole-slide images using patch-based transfer learning and a histopathology-pretrained Transformer.',
+    full: 'The second Kaggle challenge of the Artificial Neural Networks and Deep Learning course at Politecnico di Milano pushed into medical imaging territory: classifying four breast cancer molecular subtypes from noisy, variable-resolution whole-slide images. The dataset was adversarial by design — corrupted samples, class imbalance, and multi-region slides. Rather than fighting outliers with a heavy classifier, we reformulated detection as a lightweight color-based filter, which outperformed a dedicated ResNet-18 approach. The strongest model was CTrans, a Transformer pretrained specifically on histopathological data, which generalized better than standard architectures despite the domain complexity. Work done in collaboration with Francesco Crociani.',
     fullTitle: 'AN2DL Challenge 2',
     role: 'ML Engineer',
     tech: ['PyTorch'],
@@ -68,16 +74,18 @@ const PROJECTS = [
     file: 'reports/AN2DL25_Challenge2_Report.pdf',
     link: 'https://www.kaggle.com/competitions/an2dl2526c2v2/overview',
     status: 'complete',
-    images: []
+    images: ['images/anndl_c2_1.png', 'images/anndl_c2_2.png', 'images/anndl_c2_3.png', 'images/anndl_c2_4.png']
   },
   {
-    id: 4, 
+    id: 4,
     title: 'Hand2Hand',
     tag: 'Project',
     date: '2025-05',
     color: '#e8e6e2',
-    short: 'Gesture-driven audio performance system using Leap Motion Controller. Four synths and a live effects rack, controlled hands-free via hand tracking — built in SuperCollider, Processing, JUCE and Python.',
-    full: 'H2H is a hands-free, gesture-driven audio performance system developed as a group project. The system maps real-time hand motion captured by the Leap Motion Controller to synthesizer selection and parameter control: the left hand switches between four synth engines (Vangelis, AcidBass, EvolvingPad, Pluck) by finger count, while X/Y/Z position and wrist roll sculpt sound parameters live. The right hand independently drives an effects rack (Low/High-Pass, Delay, Distortion, Flanger/Tremolo). A fist gesture freezes all current values for safe improvisation. Under the hood, synth voices respond to standard MIDI Note On/Off messages for keyboard integration. The architecture is modular: Python captures Leap Motion data and relays it via OSC, Processing renders the GUI and forwards messages to SuperCollider, and a JUCE VST3 plugin hosts the effects chain. I contributed to the overall concept, developed the Leap Motion Python integration, and built the real-time GUI in Processing.',
+    context: 'MAE (Polimi) · Computer Music Representation and Models',
+    mainTag: 'Computer Music System',
+    short: 'Gesture-driven audio performance system controlled entirely by hand tracking via Leap Motion. Four synth engines and a live effects rack — no keyboard, no mouse.',
+    full: 'Hand2Hand is a hands-free live performance instrument developed as a group project at Politecnico di Milano. The concept was to make the air between performer and machine into an expressive interface: one hand selects and shapes synth voices, the other sculpts the effects chain in real time. A fist gesture freezes all parameters, enabling safe improvisation without accidental changes. The architecture is deliberately modular — Python handles sensor capture, Processing renders the GUI, SuperCollider generates audio, and a JUCE plugin hosts the effects — with OSC as the communication layer throughout. I led the Leap Motion integration and built the real-time visual interface in Processing.',
     fullTitle: 'H2H — Hand2Hand Computer Music System',
     role: 'Concept · Leap Motion Dev · Processing GUI',
     tech: ['SuperCollider', 'Processing', 'JUCE', 'Python-OSC'],
@@ -88,13 +96,15 @@ const PROJECTS = [
     images: ['images/h2h_1.png', 'images/h2h_2.png', 'images/h2h_3.png']
   },
   {
-    id: 5, 
+    id: 5,
     title: 'Or-Beat',
     tag: 'Project',
     date: '2025-02',
     color: '#e8e6e2',
-    short: 'Web-based circular drum machine with onset detection. Upload or record audio, extract samples automatically, and arrange them in a polyrhythmic grid — all in the browser.',
-    full: 'Or-Beat is an interactive web application for creating custom rhythms from real audio. Users upload or record a track (up to 2 minutes), which is analyzed via a spectral flux onset detection algorithm (built with Meyda) to identify significant transient events. The extracted samples are displayed as waveform regions that can be dragged, stretched, and fine-tuned before being dropped into one of six playback slots. From there, samples are assigned to rows in a circular drum machine interface built with P5.js, where each row exposes three parameters — steps, density, and phase — enabling complex polyrhythms and polymeters. BPM is adjustable in real time, and the full session can be exported as an audio file. The app follows an MVC architecture and integrates Tone.js for audio scheduling, Wavesurfer.js for waveform rendering, and GSAP for UI animations. A live demo is publicly accessible on GitHub Pages.',
+    context: 'MAE (Polimi) · Computer Music Languages and Systems',
+    mainTag: 'Web Audio Application',
+    short: 'Browser-based circular drum machine with automatic onset detection. Upload any audio, extract its transients as samples, and arrange them into a polyrhythmic grid — live in the browser.',
+    full: 'Or-Beat started from a simple question: what if your own recordings became the raw material for a rhythm machine, with no manual slicing required? Built as a web application, it runs onset detection directly in the browser to extract transients from uploaded or recorded audio, which users can then arrange into a circular sequencer interface with independent step, density, and phase controls per row. The result is a tool that sits between a sampler and a pattern sequencer, designed for exploring polyrhythm without technical overhead. The full session can be exported as audio. A live demo is available on GitHub Pages.',
     fullTitle: 'Or-Beat — Circular Drum Machine',
     role: 'Concept · Onset Detection Dev · Frontend Dev',
     tech: ['Tone.js', 'P5'],
@@ -102,16 +112,18 @@ const PROJECTS = [
     file: null,
     link: 'https://github.com/Gio-lly/OR-BEAT',
     status: 'complete',
-    images: ['images/orbeat_1.gif', 'images/orbeat_2.png', 'images/orbeat_3.png'] 
+    images: ['images/orbeat_1.gif', 'images/orbeat_2.png', 'images/orbeat_3.png']
   },
   {
-    id: 6, 
+    id: 6,
     title: 'NMF Timbre Transfer',
     tag: 'Research',
     date: '2025-01',
     color: '#e8e6e2',
-    short: 'Signal processing pipeline for timbre transfer using Nonnegative Matrix Factorization (NMF). Learned spectral templates from environmental sounds (bees, wind, chainsaw) and applied them to Christmas music targets, reconstructing audio via ISTFT and Griffin-Lim.',
-    full: 'Developed a full timbre transfer pipeline based solely on signal processing — no neural networks. The approach decomposes the target audio\'s magnitude spectrogram (STFT) via NMF using spectral templates W initialized from a source audio file and randomly initialized activations H, optimized with Kullback-Leibler divergence over 50 iterations with W fixed. The learned H is then applied to the complex-domain source STFT to generate a new spectrogram preserving the target\'s temporal structure with the source\'s timbral color. Audio reconstruction is performed either via Inverse STFT (fast, approximate phase) or the Griffin-Lim algorithm (iterative phase estimation, perceptually superior). Three environmental sound sources — Bees Buzzing, Wind Blowing, Chainsaw Sawing — were transferred onto four Christmas music targets across all 12 source-target combinations. Systematic parameter search over N (window length) and H (hop size) identified per-pair optimal configurations, trading off time and frequency resolution. Timbral similarity between outputs was evaluated using MFCC Euclidean distance. Post-processing strategies discussed include spectral smoothing, pitch shifting, bandpass equalization, and reverb matching. Work done in collaboration with Francesco Crociani.',
+    context: 'MAE (Polimi) · Computer Music Representation and Models',
+    mainTag: 'Audio Machine Learning',
+    short: 'Timbre transfer via NMF — no neural networks. Spectral templates from bees, wind, and chainsaw audio applied to Christmas music targets.',
+    full: 'Developed at Politecnico di Milano for the Creative Music and Real-time Multimedia course, this project explored whether timbre transfer — usually a deep learning task — could be done entirely with classical signal processing. Using NMF to learn spectral templates from environmental sounds and imposing them onto music targets, the pipeline produces outputs that carry the timbral color of one source while preserving the temporal structure of another. The choice of sources — bees buzzing, wind, chainsaw — against Christmas music was deliberately absurd, which made the results both easier to evaluate perceptually and more memorable. Audio reconstruction via Griffin-Lim consistently outperformed direct ISTFT. Work done in collaboration with Francesco Crociani.',
     fullTitle: 'NMF-Based Timbre Transfer — CMRM2024',
     role: 'Signal Processing Engineer',
     tech: ['librosa', 'NMF', 'Griffin-Lim'],
@@ -122,14 +134,16 @@ const PROJECTS = [
     images: []
   },
   {
-    id: 7, 
+    id: 7,
     title: 'LPC-10 Speech Coding',
     tag: 'Research',
     date: '2025-04',
     color: '#e8e6e2',
-    short: 'MATLAB implementation of LPC-10 speech coding simulating the Texas Instruments Speak & Spell. Full encoder-decoder pipeline with voiced/unvoiced detection via ZCR, pitch estimation via AMDF, and SNR-evaluated reconstruction.',
-    full: 'Implemented a complete LPC-10 speech coding pipeline in MATLAB, replicating the architecture of the Texas Instruments Speak & Spell toy. The encoder downsamples audio to 8 kHz, applies pre-emphasis and Hamming windowing (256 samples, hop 128), then classifies each frame as voiced or unvoiced using Zero-Crossing Rate combined with an energy threshold. Voiced frames use LPC order P=10 (Levinson-Durbin, Yule-Walker equations) while unvoiced frames use P=4, reflecting their lower spectral complexity. Pitch estimation relies on the Average Magnitude Difference Function (AMDF) with a search range of 25–80 samples (100–320 Hz). The decoder reconstructs speech by generating excitation signals — periodic impulse trains for voiced frames, bandpass-filtered white noise for unvoiced — scaled by a computed gain, then filtered through the inverse LPC shaping filter with overlap-and-add reassembly. A low-pass filter on the prediction error (cutoff 800 Hz) consistently improved reconstruction SNR by ~6–7 dB across all test files. Compression ratios evaluated on three audio files showed significant memory reduction (e.g., from 278 kB to 84 kB for ces.wav). Work done in collaboration with Francesco Moretti.',
-    fullTitle: 'LPC-10 Speech Coding — DAAP HMW1',
+    context: 'MAE (Polimi) · Digital Audio Analysis and Processing',
+    mainTag: 'Digital Signal Processing',
+    short: 'Full LPC-10 encoder-decoder in MATLAB, replicating the Texas Instruments Speak & Spell.',
+    full: 'Built for the Digital Audio and Acoustic Processing course at Politecnico di Milano, this project reconstructed the speech codec behind the iconic Texas Instruments Speak & Spell from scratch in MATLAB. The pipeline covers the full chain from downsampling and windowing through voiced/unvoiced frame classification, pitch estimation, and synthesis-by-filter decoding — the same architecture that made toy speech intelligible on 1970s hardware. The most instructive finding was a simple low-pass filter on the prediction error that consistently improved reconstruction SNR by 6–7 dB across test files, showing how targeted post-processing can outperform architectural complexity. Work done in collaboration with Francesco Moretti.',
+    fullTitle: 'LPC-10 Speech Coding — DAAP',
     role: 'DSP Engineer',
     tech: ['LPC', 'AMDF', 'Levinson-Durbin'],
     langs: ['MATLAB'],
@@ -139,13 +153,15 @@ const PROJECTS = [
     images: []
   },
   {
-    id: 8, // aggiorna con l'id corretto
+    id: 8,
     title: 'Cathartic — AI Emotion Driven Audio Visual Installation',
     tag: 'Project',
     date: '2026-06',
     color: '#e8e6e2',
-    short: 'Interactive art installation where typed personal text is analyzed for emotional content, generating a real-time adaptive soundscape while the text dissolves into audio-reactive particle simulations.',
-    full: 'Cathartic is a real-time interactive installation bridging machine learning, generative audio, and creative coding. Users type personal text on a looping interface; the input is sent via OSC to a Python backend running SamLowe/roberta-base-go_emotions, which classifies the emotional content across multiple affect dimensions. The resulting emotion vector drives a generative soundscape, while in the Processing frontend the text is rasterized into an off-screen PGraphics buffer and its pixels seed a particle system governed by Chladni figure physics — modal potential fields, kick envelope detection, and audio-reactive forces. The experience flows through a state machine: disclaimer → text input → particle dissolution → thank-you screen. Hardware deployment targets a dedicated GPU machine for real-time inference, following evaluation of models including MusicGen, Stable Audio Open, ACE-Step 1.5, and Magenta RT.',
+    context: 'MAE (Polimi) · Creative Computer and Programming',
+    mainTag: 'Generative AI',
+    short: 'Interactive installation where typed personal text is analyzed for emotional content, generating a real-time adaptive soundscape while the words dissolve into audio-reactive particle simulations.',
+    full: 'Cathartic is an ongoing personal project combining machine learning, generative audio, and creative coding into a single continuous experience. The user types something personal; a transformer-based emotion classifier reads the text and maps its affect dimensions onto a generative soundscape, while in Processing the words themselves are rasterized into particles governed by Chladni figure physics — vibrating, drifting, and dissolving in response to the audio. The piece moves through a deliberate state machine: writing, dissolution, silence. It sits at the intersection of the technical threads running through my master\'s — audio ML, real-time audio-visual systems, and spatial sound — and is the project I\'m most invested in seeing finished.',
     fullTitle: 'Cathartic — Emotion-Conditioned Audio-Reactive Installation',
     role: 'Concept, AI Model Research, Project Lead, Visuals',
     tech: ['PyTorch', 'AI Emotion Detection', 'OSC', 'AI Generative Audio in Real Time', 'Chladni Figures'],
@@ -154,7 +170,45 @@ const PROJECTS = [
     link: null,
     status: 'in progress',
     images: []
-  }
+  },
+  {
+    id: 9,
+    title: 'WDF Modeling of a MEMS Loudspeaker',
+    tag: 'Research',
+    date: '2025-06',
+    color: '#e8e6e2',
+    context: 'MAE (Polimi) · Sound Synthesis and Spatial Processing',
+    mainTag: 'Wave Digital Filters',
+    short: 'Wave Digital Filter model of a piezoelectric MEMS loudspeaker, translating the analog circuit topology into a reflection-free digital network. Built for the Sound and Signal Processing for Sound Synthesis course at Politecnico di Milano.',
+    full: 'This project models a piezoelectric MEMS loudspeaker using Wave Digital Filters — a methodology that maps analog circuit elements directly into the digital domain while preserving port impedance relationships and avoiding delay-free loops. The circuit topology was decomposed into a tree of series and parallel adaptors, each assigned a port impedance derived symbolically from the component values. The resulting digital network was validated against a state-space reference model, achieving an MSE of 0.0119 with strong agreement in both time and frequency domains across the loudspeaker\'s operating range. Work done in collaboration with Francesco Bandera.',
+    fullTitle: 'WDF Model of Piezoelectric MEMS Loudspeaker — SSSP',
+    role: 'DSP Engineer',
+    tech: ['Wave Digital Filters', 'Circuit Modeling', 'MATLAB'],
+    langs: ['MATLAB'],
+    file: 'reports/SSSP_REPORT.pdf',
+    link: null,
+    status: 'complete',
+    images: ['images/sssp_1.png', 'images/sssp_2.png', 'images/sssp_3.png']
+},
+{
+  id: 10,
+  title: 'Pixel-Level Anomaly Detection',
+  tag: 'Challenge',
+  date: '2026-05',
+  color: '#e8e6e2',
+  context: 'Polimi · Advanced Deep Learning',
+  mainTag: 'Deep Learning',
+  short: 'Multi-class pixel-level anomaly detection on industrial and food objects using few-shot visual inspection.',
+  full: 'Part of the Artificial Neural Networks and Deep Learning course at Politecnico di Milano, this Kaggle challenge — codenamed Spacepresso — involved detecting and segmenting anomalies at the pixel level across 8 object categories: resistors, inductors, gears, screws, nuts, coffee pods, pistachios, and capsules. Each sample was captured from 5 different viewpoints, and the training set provided only one labeled anomaly example per class alongside its ground-truth mask, making this a few-shot anomaly detection problem. Textual anomaly descriptions were also available per category, opening the door to vision-language approaches. The evaluation metric was Pixel-Level Average Precision on ~100 unlabeled test samples, with predictions submitted as q8rle-encoded 224×224 masks. The pipeline was designed to run entirely on Google Colab. [Work done in collaboration with ...]',
+  fullTitle: 'ADL Challenge',
+  role: ['Data Exploration', 'Anomaly Segmentation', 'Model Development'],
+  tech: ['PyTorch'],
+  langs: ['Python'],
+  file: null,
+  link: 'https://www.kaggle.com/competitions/adl-2025-2026-anomaly-detection/overview',
+  status: 'in progress',
+  images: null
+}
 ];
 
 
@@ -241,12 +295,18 @@ function renderCards() {
     <div class="card"
          style="background:${p.color}; animation-delay:${i * 0.07}s"
          data-id="${p.id}">
-      <div class="card-date">${fmtDate(p.date)}</div>
       <div class="card-body">
-        <div class="card-tag">${p.tag}</div>
+        <div class="card-top">
+          <div class="card-tag">${p.tag}</div>
+          <div class="card-date">${fmtDate(p.date)}</div>
+        </div>
         <div class="card-title">${p.title}</div>
         <div class="card-desc">${p.short}</div>
-        ${p.status ? `<div class="card-status" data-status="${p.status}">${p.status}</div>` : ''}
+
+        <div class="card-footer">
+          ${p.mainTag ? `<span class="card-pill card-pill--main">${p.mainTag}</span>` : ''}
+          ${p.status ? `<span class="card-status" data-status="${p.status}" style="margin-left:auto">${p.status}</span>` : ''}
+        </div>
       </div>
     </div>
   `).join('');
@@ -295,6 +355,11 @@ function openDetail(ev, id) {
       <div class="detail-left">
         <div class="detail-tag">${p.tag} &nbsp;·&nbsp; ${fmtDate(p.date)}</div>
         <div class="detail-title">${p.title}</div>
+
+        ${p.context ? `
+          <div class="meta-label">Context</div>
+          <div class="detail-context">${p.context}</div>
+        ` : ''}
 
         ${p.role ? `
           <div class="meta-label">Role</div>
