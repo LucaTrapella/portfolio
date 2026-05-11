@@ -95,6 +95,33 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+/* quando la foto è nascosta, collassa la colonna vuota */
+.intro.no-photo {
+  grid-template-columns: 1fr;
+  position: relative;
+}
+
+.intro.no-photo .intro-contacts {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 0;
+  padding-top: 0;
+}
+
+.intro.no-photo .intro-text {
+  max-width: 680px;
+}
+
+.intro.no-photo .intro h1 {
+  max-width: 680px;
+}
+
+.intro.no-photo .intro p {
+  max-width: 620px;
+}
+
+
 /* foto profilo — rettangolo ritagliato, nessun bordo arrotondato */
 .intro-photo img {
   width: 260px;
@@ -134,6 +161,7 @@ body {
   gap: 0.45rem;
   align-items: center;
   padding-top: 0.3rem; /* allineamento ottico con la baseline del nome */
+  margin-right: 1rem; 
 }
 
 /* singolo bottone icona — es. email, github */

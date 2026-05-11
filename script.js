@@ -1,3 +1,7 @@
+
+
+const SHOW_PROFILE_PHOTO = true;
+
 // ─────────────────────────────────────────
 //  DATI PROGETTI
 //  Ogni oggetto rappresenta un progetto. Campi:
@@ -181,7 +185,7 @@ const PROJECTS = [
   context: 'Polimi · Advanced Deep Learning',
   mainTag: 'Deep Learning',
   short: 'Pixel-level anomaly detection and segmentation for industrial and food inspection',
-  full: 'This project investigates anomaly detection under extreme low-data conditions, focusing on pixel-level segmentation across industrial and food objects observed from multiple viewpoints. ',
+  full: 'This project investigates anomaly detection in images, focusing on pixel-level segmentation across industrial and food objects observed from multiple viewpoints.',
   fullTitle: 'ADL Challenge',
   role: 'Data Exploration · AI Model Research and Development',
   tech: ['PyTorch', 'Anomalib'],
@@ -189,7 +193,7 @@ const PROJECTS = [
   file: null,
   link: 'https://www.kaggle.com/competitions/adl-2025-2026-anomaly-detection/overview',
   status: 'in progress',
-  images: []
+  images: ['images/adl_1.png', 'images/adl_2.png','images/adl_3.png','images/adl_4.png']
 }
 ];
 
@@ -502,3 +506,8 @@ document.addEventListener('keydown', e => {
 })();
 
 renderCards();
+
+if (!SHOW_PROFILE_PHOTO) {
+  document.querySelector('.intro-photo').style.display = 'none';
+  document.querySelector('.intro').classList.add('no-photo');
+}
